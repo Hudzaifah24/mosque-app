@@ -14,37 +14,41 @@
             <div class="splide__track">
                 <ul class="splide__list">
                     <li class="splide__slide relative">
-                        <img class="w-full h-full bg-cover" src="{{ asset('image/slide1.jpg') }}" alt="slide 3">
+                        <img class="w-full h-full bg-cover" src="{{ asset('image/slide1.jpg') }}" alt="slide 1">
                         <div class="absolute top-0 w-full h-full bg-black opacity-75"></div>
                         <div class="absolute top-0 w-full h-full flex justify-center items-center flex-col">
+                            <div class="text-center rounded mt-2">
+                                <div class="flex flex-row px-4">
+                                    <p class="text-white font-black py-3 text-3xl" id="jam">0</p>
+                                    <p class="text-white font-black py-3 text-3xl">&nbsp;:&nbsp;</p>
+                                    <p class="text-white font-black py-3 text-3xl" id="menit">0</p>
+                                    <p class="text-white font-black py-3 text-3xl">&nbsp;:&nbsp;</p>
+                                    <p class="text-white font-black py-3 text-3xl" id="detik">0</p>
+                                </div>
+                            </div>
                             <p class="text-white text-center uppercase font-black text-xl text-ellipsis">Selamat datang</p>
                             <p class="text-white text-center uppercase font-black text-3xl text-ellipsis">MASJID AL-IKHLAS</p>
-                            <div class="bg-white text-center rounded mt-2">
-                                <p class="text-black font-bold bg-blue-300 rounded-t py-1 px-2">Jam</p>
+                            <div class="bg-white text-center rounded mt-3">
                                 <div class="flex flex-row px-4">
-                                    <p class="text-black font-black py-3 text-3xl" id="jam">0</p>
-                                    <p class="text-black font-black py-3 text-3xl">&nbsp;:&nbsp;</p>
-                                    <p class="text-black font-black py-3 text-3xl" id="menit">0</p>
-                                    <p class="text-black font-black py-3 text-3xl">&nbsp;:&nbsp;</p>
-                                    <p class="text-black font-black py-3 text-3xl" id="detik">0</p>
+                                    <p class="text-black font-black py-3 text-xl" id="pray"></p>
                                 </div>
                             </div>
                         </div>
                     </li>
                     <li class="splide__slide relative">
-                        <img class="w-full h-full bg-cover" src="{{ asset('image/slide2.jpg') }}" alt="slide 1">
+                        <img class="w-full h-full bg-cover" src="{{ asset('image/slide2.jpg') }}" alt="slide 2">
                         <div class="absolute top-0 w-full h-full bg-black opacity-75"></div>
                         <div class="absolute top-0 w-full h-full flex justify-center items-center flex-col">
                             <p class="text-white text-center uppercase font-black text-xl text-ellipsis">Selamat datang</p>
                             <p class="text-white text-center uppercase font-black text-3xl text-ellipsis">MASJID AL-IKHLAS</p>
                             <div class="bg-white text-center rounded mt-2">
-                                <p class="text-black font-bold bg-blue-300 rounded-t py-1 px-2">Akan Tiba Sholat Dzuhur</p>
+                                <p class="text-black font-bold bg-blue-300 rounded-t py-1 px-2"></p>
                                 <p class="text-black font-black py-3 px-5 text-3xl">12:00 WIB</p>
                             </div>
                         </div>
                     </li>
                     <li class="splide__slide relative">
-                        <img class="w-full h-full bg-cover" src="{{ asset('image/slide3.jpg') }}" alt="slide 2">
+                        <img class="w-full h-full bg-cover" src="{{ asset('image/slide3.jpg') }}" alt="slide 3">
                         <div class="absolute top-0 w-full h-full bg-black opacity-75"></div>
                         <div class="absolute top-0 w-full h-full flex justify-center items-center flex-col">
                             <p class="text-white text-center uppercase font-black text-xl text-ellipsis">Selamat datang</p>
@@ -56,7 +60,6 @@
                             </div>
                         </div>
                     </li>
-
                 </ul>
             </div>
         </div>
@@ -213,6 +216,7 @@
             let tahun = new Date().getFullYear();
 
             adzan(tanggal, bulan, tahun);
+            nextPray(tanggal, bulan, tahun);
 
             fetch('https://api.myquran.com/v1/sholat/jadwal/1204/'+tahun+'/'+bulan+'/'+tanggal)
             .then((response) => response.json())
@@ -244,8 +248,6 @@
 
             })
             .catch((err) => console.log(err));
-
-            setTimeout(sholat, 1000);
         }
 
         // Alarm Adzan
@@ -269,41 +271,96 @@
             }
             let clock = `${hour}:${minute}:${second}`;
 
-            // console.log(clock);
-
             fetch('https://api.myquran.com/v1/sholat/jadwal/1204/'+tahun+'/'+bulan+'/'+tanggal)
             .then((response) => response.json())
             .then((data) => {
                 let sholatObj = data.data.jadwal;
 
-                let a = {
-                    imsak: "04:00",
-                    subuh: "04:30",
-                    dhuha: "07:00",
-                    dzuhur: "12:40",
-                    ashar: "15:00",
-                }
-
                 for (const key in sholatObj) {
-                    let api = `${sholatObj[key]}:00`;
+                    let jadwal = `${sholatObj[key]}:00`;
 
-                    if (api == clock) {
+                    if (jadwal == clock) {
                         let audio = new Howl({
                             src: ["{{ asset('audio/adzan1.mp3') }}"],
                             loop: false,
                             autoplay: true,
                             onend: function() {
                                 console.log('Finised!');
+                                confirm("Waktu Iqomah 10 detik lagi");
                             }
                         });
 
                         audio.once('load', function() {
                             audio.play();
                         });
-
                     }
                 }
-            });
+            })
+            .catch((err) => console.log(err));
         }
+
+        // Next prayer
+        function nextPray(tanggal, bulan, tahun) {
+            let date = new Date();
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let second = date.getSeconds();
+
+            if (hour < 10) {
+                hour = hour.toString();
+                hour = hour.padStart(2, "0");
+            }
+            if (minute < 10) {
+                minute = minute.toString();
+                minute = minute.padStart(2, "0");
+            }
+            if (second < 10) {
+                second = second.toString();
+                second = second.padStart(2, "0");
+            }
+            let clock = `${hour}:${minute}`;
+
+            // let ex = {
+            //     imsak: "04:00",
+            //     subuh: "04:10",
+            //     dzuhur: "05:00",
+            //     ashar: "15:01",
+            //     maghrib: "17:02",
+            //     isya: "18:30",
+            //     example: "14:16",
+            // }
+
+            fetch('https://api.myquran.com/v1/sholat/jadwal/1204/'+tahun+'/'+bulan+'/'+tanggal)
+            .then((response) => response.json())
+            .then((data) => {
+                let sholatObj = data.data.jadwal;
+
+                let nextPrayer = "";
+
+                for (const key in sholatObj) {
+                    let potong = sholatObj[key].split(":");
+                    let [h, m] = potong;
+
+                    if (h > hour) {
+                        let name = key;
+                        let waktu = sholatObj[key];
+
+                        nextPrayer = `Akan Tiba Sholat ${name} <span class="text-white bg-green-500 py-1 px-2 rounded">${waktu}</span>`
+                        break;
+                    }
+                }
+
+                document.getElementById('pray').innerHTML = nextPrayer;
+                console.log(nextPrayer)
+            })
+            .catch((err) => console.log(err));
+        }
+
+        function reload(){
+            sholat();
+            setTimeout(reload, 1000);
+        };
+
+        reload();
     </script>
 @endpush
