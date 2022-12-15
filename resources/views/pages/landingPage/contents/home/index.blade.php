@@ -7,20 +7,59 @@
                 <img class="w-full h-full bg-cover" src="{{ asset('image/slide1.jpg') }}" alt="slide 1">
                 <div class="absolute top-0 w-full h-full bg-black opacity-75"></div>
                 <div class="absolute top-0 w-full h-full flex justify-center items-center flex-col">
-                    <div class="text-center rounded mt-2">
-                        <div class="flex flex-row px-4">
-                            <p class="text-white font-black py-3 text-3xl" id="jam">0</p>
-                            <p class="text-white font-black py-3 text-3xl">&nbsp;:&nbsp;</p>
-                            <p class="text-white font-black py-3 text-3xl" id="menit">0</p>
-                            <p class="text-white font-black py-3 text-3xl">&nbsp;:&nbsp;</p>
-                            <p class="text-white font-black py-3 text-3xl" id="detik">0</p>
+                    <div class="flex flex-col">
+                        <div class="flex lg:flex-col-reverse flex-col justify-center items-center ">
+                            <div class="text-center rounded mt-2">
+                                <div class="flex flex-row px-4">
+                                    <p class="text-white font-black py-3 lg:text-9xl text-3xl" id="jam">0</p>
+                                    <p class="text-white font-black py-3 lg:text-9xl text-3xl">&nbsp;:&nbsp;</p>
+                                    <p class="text-white font-black py-3 lg:text-9xl text-3xl" id="menit">0</p>
+                                    <p class="text-white font-black py-3 lg:text-9xl text-3xl">&nbsp;:&nbsp;</p>
+                                    <p class="text-white font-black py-3 lg:text-9xl text-3xl" id="detik">0</p>
+                                </div>
+                                <p class="text-white font-black py-3 lg:text-7xl text-xl" id="tanggal"></p>
+                            </div>
+                            <div>
+                                <p class="text-white text-center uppercase font-black lg:text-3xl text-xl text-ellipsis">Selamat datang</p>
+                                <p class="text-white text-center uppercase font-black lg:text-7xl text-3xl text-ellipsis">MASJID AL-IKHLAS</p>
+                            </div>
+                        </div>
+                        <div class="bg-white text-center rounded mt-3">
+                            <div class="px-4 text-center">
+                                <p class="text-black font-black py-3 text-3xl uppercase" id="pray"></p>
+                            </div>
                         </div>
                     </div>
-                    <p class="text-white text-center uppercase font-black text-xl text-ellipsis">Selamat datang</p>
-                    <p class="text-white text-center uppercase font-black text-3xl text-ellipsis">MASJID AL-IKHLAS</p>
-                    <div class="bg-white text-center rounded mt-3">
-                        <div class="flex flex-row px-4">
-                            <p class="text-black font-black py-3 text-xl" id="pray"></p>
+                    <div class="w-full absolute bottom-0 hidden lg:flex flex-wrap mt-6 p-5 ">
+                        <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
+                            <div class="bg-blue-500 p-2 pl-4 rounded-t">
+                                <span class="text-lg">
+                                    Total Uang Kas
+                                </span>
+                            </div>
+                            <div class="bg-white p-3 rounded-b">
+                                Rp <span class="font-bold text-xl">10,000,000,00</span>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
+                            <div class="bg-blue-500 p-2 pl-4 rounded-t">
+                                <span class="text-lg">
+                                    Total Pemasukan
+                                </span>
+                            </div>
+                            <div class="bg-white p-3 rounded-b">
+                                Rp <span class="font-bold text-xl">10,000,000,00</span>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/3 pr-0">
+                            <div class="bg-red-500 p-2 pl-4 rounded-t">
+                                <span class="text-lg">
+                                    Total Pengeluaran
+                                </span>
+                            </div>
+                            <div class="bg-white p-3 rounded-b">
+                                Rp <span class="font-bold text-xl">8,000,000,00</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -58,30 +97,65 @@
                 </div>
             </div>
 
-            <div class="p-5 w-full lg:w-1/2">
-                <p class="text-center pb-6 text-xl font-bold">Kajian</p>
+            <div class="w-full lg:w-1/2 flex flex-col">
+                <div class="p-5 w-full">
+                    <p class="text-center pb-6 text-xl font-bold">Kajian</p>
 
-                <div class="bg-white overflow-auto">
-                    <table class="min-w-full leading-normal">
-                        <thead>
-                            <tr>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Judul
-                                </th>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Penceramah
-                                </th>
-                                <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                    Jam / Tanggal
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody id="output">
-                        </tbody>
-                    </table>
+                    <div class="bg-white overflow-auto">
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                                <tr>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Judul
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Penceramah
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                        Jam / Tanggal
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="output">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="w-full flex flex-wrap gap-3 mt-6 p-5 lg:hidden">
+                    <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
+                        <div class="bg-blue-500 p-2 pl-4 rounded-t">
+                            <span class="text-lg">
+                                Total Uang Kas
+                            </span>
+                        </div>
+                        <div class="bg-white p-3 rounded-b">
+                            Rp <span class="font-bold text-xl">10,000,000,00</span>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
+                        <div class="bg-blue-500 p-2 pl-4 rounded-t">
+                            <span class="text-lg">
+                                Total Pemasukan
+                            </span>
+                        </div>
+                        <div class="bg-white p-3 rounded-b">
+                            Rp <span class="font-bold text-xl">10,000,000,00</span>
+                        </div>
+                    </div>
+                    <div class="w-full lg:w-1/3 pr-0">
+                        <div class="bg-red-500 p-2 pl-4 rounded-t">
+                            <span class="text-lg">
+                                Total Pengeluaran
+                            </span>
+                        </div>
+                        <div class="bg-white p-3 rounded-b">
+                            Rp <span class="font-bold text-xl">8,000,000,00</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -196,11 +270,13 @@
         // Jadwal Sholat
         function sholat(kota = res) {
             let tanggal = new Date().getDate();
-            let bulan = new Date().getMonth();
+            let bulan = new Date().getMonth() + 1;
             let tahun = new Date().getFullYear();
 
             adzan(tanggal, bulan, tahun, kota);
             nextPray(tanggal, bulan, tahun, kota);
+
+            console.log(bulan)
 
             fetch('https://api.myquran.com/v1/sholat/jadwal/'+kota+'/'+tahun+'/'+bulan+'/'+tanggal)
             .then((response) => response.json())
@@ -229,6 +305,7 @@
 
                 document.getElementById('estimasi').innerHTML = estimasi;
                 document.getElementById('sholat').innerHTML = sholat;
+                document.getElementById('tanggal').innerHTML = sholatObj.tanggal;
 
             })
             .catch((err) => console.log(err));
@@ -337,8 +414,13 @@
                             break;
                         }
 
-                        nextPrayer = `Akan Tiba Sholat ${name} <span class="text-white bg-blue-500 py-1 px-2 rounded">${waktu}</span>`;
-
+                        break;
+                    } else {
+                        if (clock == '00:00') {
+                            nextPrayer = '...';
+                        } else {
+                            nextPrayer = `Akan Tiba imsak <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj.imsak}</span>`;
+                        }
                         break;
                     }
                 }
