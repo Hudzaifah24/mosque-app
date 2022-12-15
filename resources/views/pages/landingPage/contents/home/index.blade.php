@@ -136,7 +136,6 @@
 
         function time() {
             var clock = new Date();
-            setTimeout(time, 1000);
             let hour = clock.getHours();
             let minute = clock.getMinutes();
             let second = clock.getSeconds();
@@ -157,6 +156,8 @@
             document.getElementById('jam').innerHTML = hour;
             document.getElementById('menit').innerHTML = minute;
             document.getElementById('detik').innerHTML = second;
+
+            setTimeout(time, 1000);
         }
 
         // Kajian
@@ -211,6 +212,8 @@
             let bulan = new Date().getMonth();
             let tahun = new Date().getFullYear();
 
+            adzan(tanggal, bulan, tahun);
+
             fetch('https://api.myquran.com/v1/sholat/jadwal/1204/'+tahun+'/'+bulan+'/'+tanggal)
             .then((response) => response.json())
             .then((data) => {
@@ -238,80 +241,66 @@
 
                 document.getElementById('estimasi').innerHTML = estimasi;
                 document.getElementById('sholat').innerHTML = sholat;
+
             })
             .catch((err) => console.log(err));
+
+            setTimeout(sholat, 1000);
         }
 
         // Alarm Adzan
-        window.setTimeout(adzan, 1000)
+        function adzan(tanggal, bulan, tahun) {
+            let date = new Date();
+            let hour = date.getHours();
+            let minute = date.getMinutes();
+            let second = date.getSeconds();
 
-        function adzan() {
-            window.setTimeout(reload, 1000)
-
-            function reload(){
-                let date = new Date();
-                let hour = date.getHours();
-                let minute = date.getMinutes();
-                let second = date.getSeconds();
-
-                if (hour < 10) {
-                    hour = hour.toString();
-                    hour = hour.padStart(2, "0");
-                }
-                if (minute < 10) {
-                    minute = minute.toString();
-                    minute = minute.padStart(2, "0");
-                }
-                if (second < 10) {
-                    second = second.toString();
-                    second = second.padStart(2, "0");
-                }
-                let clock = `${hour}:${minute}`;
-
-                console.log(clock);
-
-                if (!this.audio) {
-                    setTimeout(reload, 1000);
-                }
-
-                if ('11:30' == clock) {
-                    // let audio = new Howl({
-                    //     src: ["{{ asset('audio/adzan1.mp3') }}"],
-                    //     loop: false,
-                    //     autoplay: true,
-                    //     // onend: function() {
-                    //     //     console.log('Finised!');
-                    //     // }
-                    // });
-
-                    // audio.once('load', function() {
-                    //     audio.play();
-                    // });
-                    console.log('Berasil siii!!!');
-                }
+            if (hour < 10) {
+                hour = hour.toString();
+                hour = hour.padStart(2, "0");
             }
+            if (minute < 10) {
+                minute = minute.toString();
+                minute = minute.padStart(2, "0");
+            }
+            if (second < 10) {
+                second = second.toString();
+                second = second.padStart(2, "0");
+            }
+            let clock = `${hour}:${minute}:${second}`;
+
+            // console.log(clock);
 
             fetch('https://api.myquran.com/v1/sholat/jadwal/1204/'+tahun+'/'+bulan+'/'+tanggal)
             .then((response) => response.json())
             .then((data) => {
                 let sholatObj = data.data.jadwal;
 
-                for (const key in sholatObj) {
-                    if (sholatObj[key] == clock) {
-                        window.setTimeout(() => {
-                            let audio = new Howl({
-                                src: ["{{ asset('audio/adzan1.mp3') }}"],
-                                loop: false,
-                                autoplay: true,
-                                // onend: function() {
-                                //     console.log('Finised!');
-                                // }
-                            });
+                let a = {
+                    imsak: "04:00",
+                    subuh: "04:30",
+                    dhuha: "07:00",
+                    dzuhur: "12:40",
+                    ashar: "15:00",
+                }
 
-                            audio.once('load', function() {
-                                audio.play();
-                            });
-                        }, 1000);
+                for (const key in sholatObj) {
+                    let api = `${sholatObj[key]}:00`;
+
+                    if (api == clock) {
+                        let audio = new Howl({
+                            src: ["{{ asset('audio/adzan1.mp3') }}"],
+                            loop: false,
+                            autoplay: true,
+                            onend: function() {
+                                console.log('Finised!');
+                            }
+                        });
+
+                        audio.once('load', function() {
+                            audio.play();
+                        });
+
                     }
                 }
             });
