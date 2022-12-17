@@ -13,52 +13,44 @@
         @endif
 
         <div class="flex flex-wrap mt-6">
-            <div class="w-full lg:w-1/4 pr-0 lg:pr-2">
+            <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
                 <div class="bg-blue-500 p-2 pl-4 rounded">
                     <span class="text-lg">
                         Total Uang Kas
                     </span>
                 </div>
                 <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">10,000,000,00</span>
+                    Rp <span class="font-bold text-xl">{{ number_format($res) }}</span>
                 </div>
             </div>
-            <div class="w-full lg:w-1/4 pr-0 lg:pr-2">
+            <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
+                <div class="bg-green-500 p-2 pl-4 rounded">
+                    <span class="text-lg">
+                        Pemasukan Minggu Ini
+                    </span>
+                </div>
+                <div class="bg-white p-3 rounded">
+                    Rp <span class="font-bold text-xl">{{ number_format($resWeek) }}</span>
+                </div>
+            </div>
+            <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
                 <div class="bg-red-500 p-2 pl-4 rounded">
                     <span class="text-lg">
                         Total Pengeluaran
                     </span>
                 </div>
                 <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">8,000,000,00</span>
-                </div>
-            </div>
-            <div class="w-full lg:w-1/4 pr-0 lg:pr-2">
-                <div class="bg-green-500 p-2 pl-4 rounded">
-                    <span class="text-lg">
-                        Pemasukan Mingguan
-                    </span>
-                </div>
-                <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">1,000,000,00</span>
-                </div>
-            </div>
-            <div class="w-full lg:w-1/4">
-                <div class="bg-yellow-500 p-2 pl-4 rounded">
-                    <span class="text-lg">
-                        Pengeluaran Mingguan
-                    </span>
-                </div>
-                <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">1,000,000,00</span>
+                    Rp <span class="font-bold text-xl">{{ number_format(preg_replace("/-/", "",$pengeluaran)) }}</span>
                 </div>
             </div>
         </div>
 
+
+
         <div class="flex flex-wrap mt-6">
             <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
                 <p class="text-xl pb-3 flex items-center">
-                    <i class="fas fa-plus mr-3"></i> Laporan Bulanan
+                    <i class="fas fa-plus mr-3"></i> Pemasukan Mingguan
                 </p>
                 <div class="p-6 bg-white">
                     <canvas id="chartOne" width="400" height="200"></canvas>
@@ -66,7 +58,7 @@
             </div>
             <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                 <p class="text-xl pb-3 flex items-center">
-                    <i class="fas fa-plus mr-3"></i> Laporan Tahunan
+                    <i class="fas fa-plus mr-3"></i> Pemasukan Bulanan
                 </p>
                 <div class="p-6 bg-white">
                     <canvas id="chartTwo" width="400" height="200"></canvas>
@@ -74,51 +66,51 @@
             </div>
         </div>
 
-        <div class="w-full mt-12">
-            <p class="text-xl pb-3 flex items-center">
-                <i class="fas fa-list mr-3"></i> Laporan Terakhir
-            </p>
-            <div class="bg-white overflow-auto">
-                <table class="min-w-full bg-white">
-                    <thead class="bg-gray-800 text-white">
-                        <tr>
-                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Jumlah</th>
-                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Status</th>
-                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Waktu</th>
-                            <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Deskripsi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-700">
-                        <tr>
-                            <td class="text-left py-3 px-4">Rp 500,000,00</td>
-                            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                                <span
-                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                    <span aria-hidden
-                                        class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
-                                    <span class="relative">Pemasukan</span>
-                                </span>
-                            </td>
-                            <td class="text-left py-3 px-4">20-12-2022</td>
-                            <td class="text-left py-3 px-4">Iuran Warga</td>
-                        </tr>
-                        <tr class="bg-gray-200">
-                            <td class="text-left py-3 px-4">Rp 100,000,00</td>
-                            <td class="px-5 py-5 border-b border-gray-200 text-sm">
-                                <span
-                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
-                                    <span aria-hidden
-                                        class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
-                                    <span class="relative">Pengeluaran</span>
-                                </span>
-                            </td>
-                            <td class="text-left py-3 px-4">21-12-2022</td>
-                            <td class="text-left py-3 px-4">Membeli Masako</td>
-                        </tr>
-                    </tbody>
-                </table>
+        @if (Auth::user()->role->name == 'Admin')
+            <div class="w-full mt-12">
+                <p class="text-xl pb-3 flex items-center">
+                    <i class="fas fa-list mr-3"></i> Semua Catatan Uang Kas
+                </p>
+                <div class="bg-white overflow-auto">
+                    <table class="min-w-full bg-white">
+                        <thead class="bg-gray-800 text-white">
+                            <tr>
+                                <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Jumlah</th>
+                                <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Status</th>
+                                <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Waktu</th>
+                                <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            @foreach ($cashes as $cash)
+                                <tr>
+                                    <td class="text-left py-3 px-4 border-b border-gray-200">Rp {{ number_format($cash->amount) }}</td>
+                                    <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                                        @if ($cash->status == 'income')
+                                            <span
+                                                class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                <span aria-hidden
+                                                    class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                                <span class="relative">Pemasukan</span>
+                                            </span>
+                                        @else
+                                            <span
+                                                class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                <span aria-hidden
+                                                    class="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                                <span class="relative">Pengeluaran</span>
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="text-left py-3 px-4 border-b border-gray-200">{{ $cash->date }}</td>
+                                    <td class="text-left py-3 px-4 border-b border-gray-200">{!! Str::substr($cash->desc, 0, 8) . '...' !!}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        @endif
     </main>
 @endsection
 
@@ -132,17 +124,18 @@
         var myChart = new Chart(chartOne, {
             type: 'bar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Ahad'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: '# of Week',
+                    data: [{{ $days['senin'].','.$days['selasa'].','.$days['rabu'].','.$days['kamis'].','.$days['jumat'].','.$days['sabtu'].','.$days['ahad'] }}],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
                         'rgba(255, 206, 86, 0.2)',
                         'rgba(75, 192, 192, 0.2)',
                         'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(000, 000, 00, 0.2)'
                     ],
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
@@ -150,7 +143,8 @@
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
                         'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(000, 000, 000, 1)',
                     ],
                     borderWidth: 1
                 }]
@@ -170,10 +164,10 @@
         var myLineChart = new Chart(chartTwo, {
             type: 'line',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: '# of Month',
+                    data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',

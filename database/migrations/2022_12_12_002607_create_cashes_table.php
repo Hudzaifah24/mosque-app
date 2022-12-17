@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('amount');
             $table->enum('status', ['income', 'spend']);
             $table->date('date');
+            $table->text('desc');
             $table->timestamps();
         });
     }

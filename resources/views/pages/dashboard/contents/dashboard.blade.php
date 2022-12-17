@@ -6,7 +6,7 @@
     <main class="w-full flex-grow p-6">
         <h1 class="text-3xl text-black">Dashboard</h1>
 
-        <div class="flex flex-wrap mt-6">
+        <div class="flex gap-5 lg:gap-0 flex-wrap mt-6">
             <div class="w-full lg:w-1/4 pr-0 lg:pr-2">
                 <div class="bg-blue-500 p-2 pl-4 rounded">
                     <span class="text-lg">
@@ -14,7 +14,7 @@
                     </span>
                 </div>
                 <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">10,000,000,00</span>
+                    Rp <span class="font-bold text-xl">{{ number_format($uangKas) }}</span>
                 </div>
             </div>
             <div class="w-full lg:w-1/4 pr-0 lg:pr-2">
@@ -24,7 +24,7 @@
                     </span>
                 </div>
                 <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">8,000,000,00</span>
+                    Rp <span class="font-bold text-xl">{{ number_format(preg_replace("/-/", "", $pengeluaran)) }}</span>
                 </div>
             </div>
             <div class="w-full lg:w-1/4 pr-0 lg:pr-2">
@@ -34,7 +34,7 @@
                     </span>
                 </div>
                 <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">1,000,000,00</span>
+                    Rp <span class="font-bold text-xl">{{ number_format($pemasukanMingguan) }}</span>
                 </div>
             </div>
             <div class="w-full lg:w-1/4">
@@ -44,7 +44,7 @@
                     </span>
                 </div>
                 <div class="bg-white p-3 rounded">
-                    Rp <span class="font-bold text-xl">1,000,000,00</span>
+                    Rp <span class="font-bold text-xl">{{ number_format(preg_replace("/-/", "", $pengeluaranMingguan)) }}</span>
                 </div>
             </div>
         </div>

@@ -12,14 +12,20 @@
                     <i class="fas fa-list mr-3"></i> Tambah Uang Kas
                 </p>
                 <div class="leading-loose">
-                    <form class="p-10 bg-white rounded shadow-xl">
+                    <form action="{{ route('cash.store') }}" method="POST" class="p-10 bg-white rounded shadow-xl">
+                        @csrf
+                        @method('POST')
                         <div class="">
                             <label class="block text-sm text-gray-600" for="amount">Jumlah</label>
                             <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="amount" name="amount" type="number" required="" placeholder="Jumlah Uang" aria-label="amount">
                         </div>
                         <div class="mt-2">
                             <label class="block text-sm text-gray-600" for="date">Tanggal</label>
-                            <input class="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" id="date" name="date" type="date" required="" placeholder="date" aria-label="date">
+                            <input class="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" id="date" name="date" type="date" required="" placeholder="tanggal" aria-label="date">
+                        </div>
+                        <div class="mt-2">
+                            <label class="block text-sm text-gray-600" for="desc">Deskripsi</label>
+                            <textarea name="desc" id="description" cols="30" rows="10"></textarea>
                         </div>
                         <div class="mt-2">
                             <label class="block text-sm text-gray-600" for="status">Status</label>

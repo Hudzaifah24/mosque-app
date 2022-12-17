@@ -12,25 +12,31 @@
                     <i class="fas fa-list mr-3"></i> Edit Uang Kas
                 </p>
                 <div class="leading-loose">
-                    <form class="p-10 bg-white rounded shadow-xl">
+                    <form action="{{ route('cash.update') }}" method="POST" class="p-10 bg-white rounded shadow-xl">
+                        @csrf
+                        @method('PUT')
                         <div class="">
                             <label class="block text-sm text-gray-600" for="amount">Jumlah</label>
-                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="amount" name="amount" type="number" required="" placeholder="Jumlah Uang" aria-label="amount" value="">
+                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="amount" name="amount" type="number" required="" placeholder="Jumlah Uang" aria-label="amount" value="{{ $cash->amount }}">
                         </div>
                         <div class="mt-2">
                             <label class="block text-sm text-gray-600" for="date">Tanggal</label>
-                            <input class="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" id="date" name="date" type="date" required="" placeholder="date" aria-label="date" value="">
+                            <input class="w-full px-5  py-1 text-gray-700 bg-gray-200 rounded" id="date" name="date" type="date" required="" placeholder="tanggal" aria-label="date" value="{{ $cash->date }}">
+                        </div>
+                        <div class="mt-2">
+                            <label class="block text-sm text-gray-600" for="desc">Deskripsi</label>
+                            <textarea name="desc" id="description" cols="30" rows="10">{!! $cash->desc !!}</textarea>
                         </div>
                         <div class="mt-2">
                             <label class="block text-sm text-gray-600" for="status">Status</label>
                             <div class="flex gap-10">
                                 <label class="flex flex-col text-sm text-gray-600" for="income">
                                     Pemasukan
-                                    <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="income" name="status" value="income" type="radio" required="">
+                                    <input {{ $cash->status == 'income' ? 'checked' : '' }} class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="income" name="status" value="income" type="radio" required="">
                                 </label>
                                 <label class="flex flex-col text-sm text-gray-600" for="spend">
                                     Pengeluaran
-                                    <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="spend" name="status" value="spend" type="radio" required="">
+                                    <input {{ $cash->status == 'spend' ? 'checked' : '' }} class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="spend" name="status" value="spend" type="radio" required="">
                                 </label>
                             </div>
                         </div>

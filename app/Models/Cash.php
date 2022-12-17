@@ -15,5 +15,6 @@ class Cash extends Model
         'amount',
         'status',
         'date',
+        'desc'
     ];
 }

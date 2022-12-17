@@ -8,7 +8,7 @@
     </div>
 
     <!-- Dropdown Nav -->
-    <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+    <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4 overflow-y-scroll">
         <a href="{{ route('dashboard') }}" class="flex items-center @yield('dashboard') {{ request()->is('admin/dashboard*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
             <i class="fas fa-tachometer-alt mr-3"></i>
             Dashboard

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\api\KajianController;
+use App\Http\Controllers\Dashboard\api\CashController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('kajianAPI', KajianController::class);
+Route::apiResource('cashAPI', CashController::class);

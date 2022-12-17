@@ -5,6 +5,8 @@
         <ul>
             <li class="relative">
                 <img class="w-full h-full bg-cover" src="{{ asset('image/slide1.jpg') }}" alt="slide 1">
+                <button class="absolute top-0 z-50 lg:z-30 lg:left-0 right-0 p-3" id="btnCloseFullScreen" onclick="closeFullScreen('sm')"><svg width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M14,14H19V16H16V19H14V14M5,14H10V19H8V16H5V14M8,5H10V10H5V8H8V5M19,8V10H14V5H16V8H19Z" /></svg></button>
+                <button class="absolute top-0 z-30 lg:z-50 lg:left-0 right-0 p-3" id="btnCloseFullScreen2" onclick="closeFullScreen('lg')"><svg width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M14,14H19V16H16V19H14V14M5,14H10V19H8V16H5V14M8,5H10V10H5V8H8V5M19,8V10H14V5H16V8H19Z" /></svg></button>
                 <div class="absolute top-0 w-full h-full bg-black opacity-75"></div>
                 <div class="absolute top-0 w-full h-full flex justify-center items-center flex-col">
                     <div class="flex flex-col">
@@ -17,7 +19,7 @@
                                     <p class="text-white font-black py-3 lg:text-9xl text-3xl">&nbsp;:&nbsp;</p>
                                     <p class="text-white font-black py-3 lg:text-9xl text-3xl" id="detik">0</p>
                                 </div>
-                                <p class="text-white font-black py-3 lg:text-7xl text-xl" id="tanggal"></p>
+                                <p class="text-white font-black py-3 text-7xl lg:block hidden" id="tanggal"></p>
                             </div>
                             <div>
                                 <p class="text-white text-center uppercase font-black lg:text-3xl text-xl text-ellipsis">Selamat datang</p>
@@ -26,7 +28,7 @@
                         </div>
                         <div class="bg-white text-center rounded mt-3">
                             <div class="px-4 text-center">
-                                <p class="text-black font-black py-3 text-3xl uppercase" id="pray"></p>
+                                <p class="text-black font-black py-3 lg:text-3xl text-xl uppercase" id="pray"></p>
                             </div>
                         </div>
                     </div>
@@ -38,17 +40,17 @@
                                 </span>
                             </div>
                             <div class="bg-white p-3 rounded-b">
-                                Rp <span class="font-bold text-xl">10,000,000,00</span>
+                                <span class="font-bold text-xl cash">0</span>
                             </div>
                         </div>
                         <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
-                            <div class="bg-blue-500 p-2 pl-4 rounded-t">
+                            <div class="bg-green-500 p-2 pl-4 rounded-t">
                                 <span class="text-lg">
                                     Total Pemasukan
                                 </span>
                             </div>
                             <div class="bg-white p-3 rounded-b">
-                                Rp <span class="font-bold text-xl">10,000,000,00</span>
+                                <span class="font-bold text-xl income">0</span>
                             </div>
                         </div>
                         <div class="w-full lg:w-1/3 pr-0">
@@ -58,7 +60,7 @@
                                 </span>
                             </div>
                             <div class="bg-white p-3 rounded-b">
-                                Rp <span class="font-bold text-xl">8,000,000,00</span>
+                                <span class="font-bold text-xl spend">0</span>
                             </div>
                         </div>
                     </div>
@@ -133,7 +135,7 @@
                             </span>
                         </div>
                         <div class="bg-white p-3 rounded-b">
-                            Rp <span class="font-bold text-xl">10,000,000,00</span>
+                            <span class="font-bold text-xl" id="cash">0</span>
                         </div>
                     </div>
                     <div class="w-full lg:w-1/3 pr-0 lg:pr-2">
@@ -143,7 +145,7 @@
                             </span>
                         </div>
                         <div class="bg-white p-3 rounded-b">
-                            Rp <span class="font-bold text-xl">10,000,000,00</span>
+                            <span class="font-bold text-xl" id="income">0</span>
                         </div>
                     </div>
                     <div class="w-full lg:w-1/3 pr-0">
@@ -153,7 +155,7 @@
                             </span>
                         </div>
                         <div class="bg-white p-3 rounded-b">
-                            Rp <span class="font-bold text-xl">8,000,000,00</span>
+                            <span class="font-bold text-xl" id="spend">0</span>
                         </div>
                     </div>
                 </div>
@@ -165,7 +167,7 @@
 @push('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js" integrity="sha512-6+YN/9o9BWrk6wSfGxQGpt3EUK6XeHi6yeHV+TYD2GR0Sj/cggRpXr1BrAQf0as6XslxomMUxXp2vIl+fv0QRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <script>
+    <script type="text/javascript">
         // JAM
         function time() {
             var clock = new Date();
@@ -275,8 +277,6 @@
 
             adzan(tanggal, bulan, tahun, kota);
             nextPray(tanggal, bulan, tahun, kota);
-
-            console.log(bulan)
 
             fetch('https://api.myquran.com/v1/sholat/jadwal/'+kota+'/'+tahun+'/'+bulan+'/'+tanggal)
             .then((response) => response.json())
@@ -399,43 +399,115 @@
 
                 let nextPrayer = "";
 
-                for (const key in sholatObj) {
-                    let potong = sholatObj[key].split(":");
-                    let [h, m] = potong;
+                let sholatmaghrib = sholatObj['maghrib'].split(":");
+                let [h1, m1] = sholatmaghrib;
 
-                    if (h >= hour) {
-                        let name = key;
-                        let waktu = sholatObj[key];
-                        if (waktu == clock) {
-                            if (h > hour) {
-                                nextPrayer = `Akan Tiba Sholat ${name} <span class="text-white bg-blue-500 py-1 px-2 rounded">${waktu}</span>`;
-                                break;
-                            }
-                            break;
-                        }
+                let sholatisya = sholatObj['isya'].split(":");
+                let [h2, m2] = sholatisya;
 
-                        break;
-                    } else {
-                        if (clock == '00:00') {
-                            nextPrayer = '...';
-                        } else {
-                            nextPrayer = `Akan Tiba imsak <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj.imsak}</span>`;
-                        }
-                        break;
-                    }
+                let sholatimsak = sholatObj['imsak'].split(":");
+                let [h3, m3] = sholatimsak;
+
+                let sholatsubuh = sholatObj['subuh'].split(":");
+                let [h4, m4] = sholatsubuh;
+
+                let sholatterbit = sholatObj['terbit'].split(":");
+                let [h5, m5] = sholatterbit;
+
+                let sholatdhuha = sholatObj['dhuha'].split(":");
+                let [h6, m6] = sholatdhuha;
+
+                let sholatdzuhur = sholatObj['dzuhur'].split(":");
+                let [h7, m7] = sholatdzuhur;
+
+                let sholatashar = sholatObj['ashar'].split(":");
+                let [h8, m8] = sholatashar;
+
+                if(sholatObj['maghrib'] == clock && hour >= h1 && minute >= m1) {
+                    nextPrayer = `Akan Tiba Waktu Sholat Isya <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['isya']}</span>`;
+                } else if (sholatObj['isya'] == clock && hour >= h2 && minute >= m2) {
+                    nextPrayer = `Akan Tiba Waktu Imsak <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['imsak']}</span>`;
+                } else if (sholatObj['imsak'] == clock && hour >= h3 && minute >= m3) {
+                    nextPrayer = `Akan Tiba Waktu Sholat Subuh <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['subuh']}</span>`;
+                } else if (sholatObj['subuh'] == clock && hour >= h4 && minute >= m4) {
+                    nextPrayer = `Akan Tiba Waktu Terbit <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['terbit']}</span>`;
+                } else if (sholatObj['terbit'] == clock && hour >= h5 && minute >= m5) {
+                    nextPrayer = `Akan Tiba Waktu Dhuha <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['dhuha']}</span>`;
+                } else if (sholatObj['dhuha'] == clock && hour >= h6 && minute >= m6) {
+                    nextPrayer = `Akan Tiba Waktu Sholat Dzuhur <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['dzuhur']}</span>`;
+                } else if (sholatObj['dzuhur'] == clock && hour >= h7 && minute >= m7) {
+                    nextPrayer = `Akan Tiba Waktu Sholat Ashar <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['ashar']}</span>`;
+                } else if (sholatObj['ashar'] == clock && hour >= h8 && minute >= m8) {
+                    nextPrayer = `Akan Tiba Waktu Sholat Maghrib <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['maghrib']}</span>`;
+                } else {
+                    nextPrayer = `Akan Tiba Waktu Imsak <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj['imsak']}</span>`;
                 }
+
+                console.log(nextPrayer);
+
+                // for (const key in sholatObj) {
+                //     let potong = sholatObj[key].split(":");
+                //     let [h, m] = potong;
+
+
+                //     if (h >= hour) {
+                //         let name = key;
+                //         let waktu = sholatObj[key];
+                //         if (waktu != clock) {
+                //             if (h >= hour) {
+                //                 if (m > minute) {
+                //                     nextPrayer = `Akan Tiba Sholat ${name} <span class="text-white bg-blue-500 py-1 px-2 rounded">${waktu}</span>`;
+                //                 } else {
+                //                     nextPrayer = `Akan Tiba Sholat ${name} <span class="text-white bg-blue-500 py-1 px-2 rounded">${waktu}</span>`;
+                //                 }
+                //                 break;
+                //             } else {
+                //                 if (clock == '00:00') {
+                //                     nextPrayer = '...';
+                //                 } else {
+                //                     nextPrayer = `Akan Tiba imsak <span class="text-white bg-blue-500 py-1 px-2 rounded">${sholatObj.imsak}</span>`;
+                //                 }
+                //                 break;
+                //             }
+                //             break;
+                //         }
+                //         break;
+                //     }
+                // }
 
                 document.getElementById('pray').innerHTML = nextPrayer;
             })
             .catch((err) => console.log(err));
         }
 
+        // Uang Kas
+        function cash() {
+            fetch("{{ route('cashAPI.index') }}")
+            .then((response) => response.json())
+            .then((data) => {
+                let uangKas = new Intl.NumberFormat('id-Id', {style: 'currency', currency: 'IDR'}).format(data.uangKas);
+                let pemasukan = new Intl.NumberFormat('id-Id', {style: 'currency', currency: 'IDR'}).format(data.pemasukan);
+                let pengeluaran = new Intl.NumberFormat('id-Id', {style: 'currency', currency: 'IDR'}).format(Number(data.pengeluaran));
+
+                document.querySelector('.cash').innerHTML = uangKas;
+                document.querySelector('.income').innerHTML = pemasukan;
+                document.querySelector('.spend').innerHTML = pengeluaran;
+
+                document.querySelector('#cash').innerHTML = uangKas;
+                document.querySelector('#income').innerHTML = pemasukan;
+                document.querySelector('#spend').innerHTML = pengeluaran;
+
+            })
+            .catch((err) => console.log(err));
+        }
+
+        reload();
+
         function reload(){
             time();
             sholat();
+            cash();
             setTimeout(reload, 1000);
         };
-
-        reload();
     </script>
 @endpush

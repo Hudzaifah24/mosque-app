@@ -7,20 +7,20 @@
         <div class="flex justify-center flex-wrap">
             <div class="lg:w-1/2 w-full my-6 pr-0 lg:pr-2">
                 <div class="leading-loose">
-                    <form action="" method="POST" class="p-10 bg-white rounded shadow-xl">
+                    <form action="{{ route('change.password.update.landing') }}" method="POST" class="p-10 bg-white rounded shadow-xl">
                         @csrf
-                        @method('POST')
+                        @method('PUT')
                         <div class="mt-2">
-                            <label class="block text-sm text-gray-600" for="current_password">Password Lama</label>
-                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="current_password" name="current" type="password" required="" placeholder="Password Lama" aria-label=_current_password">
+                            <label class="block text-sm text-gray-600" for="old_password">Password Lama</label>
+                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="old_password" name="old_password" type="password" required="" placeholder="Password Lama" aria-label=_old_password">
                         </div>
                         <div class="mt-2">
-                            <label class="block text-sm text-gray-600" for="password">Password Baru</label>
-                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="password" name="password" type="password" required="" placeholder="Password" aria-label="password">
+                            <label class="block text-sm text-gray-600" for="new_password">Password Baru</label>
+                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="new_password" name="new_password" type="password" required="" placeholder="Password" aria-label="new_password">
                         </div>
                         <div class="mt-2">
-                            <label class="block text-sm text-gray-600" for="password_confirmation">Konfirmasi Password Baru</label>
-                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="password_confirmation" name="password_confirmation" type="password" required="" placeholder="Ulangi Password" aria-label="password_confirmation">
+                            <label class="block text-sm text-gray-600" for="new_password_confirmation">Konfirmasi Password Baru</label>
+                            <input class="w-full px-5 py-1 text-gray-700 bg-gray-200 rounded" id="new_password_confirmation" name="new_password_confirmation" type="password" required="" placeholder="Ulangi Password" aria-label="new_password_confirmation">
                         </div>
                         <div class="mt-6 flex gap-2">
                             <button class="px-4 py-1 text-white font-light tracking-wider bg-gray-900 rounded" type="submit">Submit</button>

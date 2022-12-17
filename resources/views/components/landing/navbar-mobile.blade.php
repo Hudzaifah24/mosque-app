@@ -1,42 +1,32 @@
-<header x-data="{ isOpen: false }" class="w-full bg-sidebar py-5 px-6 sm:hidden z-50">
+<header x-data="{ isOpen: false }" class="w-full bg-sidebar py-5 px-6 sm:hidden z-50" id="navbarSm">
     <div class="flex items-center justify-between">
         <a href="{{ route('home') }}" class="text-white text-3xl font-semibold uppercase hover:text-gray-300">LOGO</a>
-        <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
-            <i x-show="!isOpen" class="fas fa-bars"></i>
-            <i x-show="isOpen" class="fas fa-times"></i>
-        </button>
+        <div class="flex">
+            <div class="flex items-center mr-5">
+                <button id="btnOpenFullScreen" onclick="openFullScreen()"><svg width="30" height="30" viewBox="0 0 24 24"><path fill="#fff" d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" /></svg></button>
+            </div>
+            <button @click="isOpen = !isOpen" class="text-white text-3xl focus:outline-none">
+                <i x-show="!isOpen" class="fas fa-bars"></i>
+                <i x-show="isOpen" class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
 
+
     <!-- Dropdown Nav -->
-    <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
-        {{-- <a href="{{ route('dashboard') }}" class="flex items-center @yield('dashboard') {{ request()->is('admin/dashboard*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-tachometer-alt mr-3"></i>
-            Dashboard
-        </a>
-        <a href="{{ route('kajian.index') }}" class="flex items-center @yield('kajian') {{ request()->is('admin/kajian*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-sticky-note mr-3"></i>
-            Kajian
-        </a>
-        <a href="{{ route('cash.index') }}" class="flex items-center @yield('cash') {{ request()->is('admin/cash*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-table mr-3"></i>
-            Uang Kas
-        </a>
-        <a href="{{ route('jadwal.sholat') }}" class="flex items-center @yield('jadwalSholat') {{ request()->is('admin/jadwal/sholat*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-align-left mr-3"></i>
-            Jadwal Sholat
-        </a>
-        <a href="{{ route('user.index') }}" class="flex items-center @yield('user') {{ request()->is('admin/user*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-tablet-alt mr-3"></i>
-            Pengguna
-        </a>
-        <a href="{{ route('role.index') }}" class="flex items-center @yield('role') {{ request()->is('admin/role*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
-            <i class="fas fa-calendar mr-3"></i>
-            Role
-        </a> --}}
+    <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4 overflow-y-scroll">
         <a href="{{ route('account.landing') }}" class="flex items-center @yield('account') {{ request()->is('admin/account') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
             <i class="fas fa-user mr-3"></i>
             Akun Saya
         </a>
+        @auth
+            @if (Auth::user()->role = 'Admin')
+                <a href="{{ route('dashboard') }}" class="flex items-center @yield('dashboard') {{ request()->is('admin/dashboard*') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-tachometer-alt mr-3"></i>
+                    Dashboard
+                </a>
+            @endif
+        @endauth
         <a href="{{ route('home') }}" class="flex items-center @yield('home') {{ request()->is('admin/home') ? 'opacity-100' : 'opacity-75' }} text-white hover:opacity-100 py-2 pl-4 nav-item">
             <i class="fas fa-cogs mr-3"></i>
             Home

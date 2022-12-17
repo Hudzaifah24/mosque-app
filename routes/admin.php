@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/user', UserController::class);
 Route::resource('/role', RoleController::class);
 Route::resource('/kajian', KajianController::class);
-Route::resource('/cash', CashController::class)->only(['index', 'create', 'edit']);
+Route::resource('/cash', CashController::class);
 
 // Get
 Route::get('/jadwal/sholat', [JadwalSholatController::class, 'index'])->name('jadwal.sholat');
